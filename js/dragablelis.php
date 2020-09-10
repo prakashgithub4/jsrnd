@@ -23,10 +23,39 @@
          $(function() {
             $( "#sortable-1" ).sortable({
                 update:function(event,ui){
-                    alert("New position: " + ui.item.index());
+                    // console.log(ui.item.attr("id"));
+                   // alert("New position: " + ui.item.index());
+                 
+                        updatepos(ui.item.attr("id"), ui.item.index());
+                      
+
+
+             
+
+
+
+
                 }
             });
          });
+
+function updatepos(id,position){
+  $.ajax({
+          url: "http://localhost/multipleimage/multipleimage/api/update_postion",
+          type: 'post',
+          data:{id:id,position:position},
+          datatype: 'json'
+        })
+            .done(function (data) { 
+           console.log(data);
+
+           
+         })
+        .fail(function (jqXHR, textStatus, errorThrown) { 
+         console.log('error');
+         });
+ 
+}
       </script>
    </head>
    
@@ -47,7 +76,7 @@ $(document).ready(function(){
         .done(function (data) { 
          $.each(data.data, function(index, value) {
           console.log(value);
-          $("#sortable-1").append("<li class ='default'>"+value.name+"</li>");
+          $("#sortable-1").append("<li  class ='default' id='"+value.id+"'>"+value.name+"</li>");
       
          });
 
